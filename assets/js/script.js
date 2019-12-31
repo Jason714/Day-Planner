@@ -39,15 +39,27 @@ $(document).ready(function() {
 
   $(".saveBtn").on("click", function(e) {
     e.preventDefault();
-    var index = $(".saveBtn").index(this);
-    var todo = $(".description");
-    console.log(index);
-    todo[index] = $(this)
-      .prev(".description")
-      .val();
+
+    var todo = $(".time-block > .description")
+      .map(function() {
+        return $(this).val();
+      })
+      .get();
     localStorage.setItem("todos", JSON.stringify(todo));
-    console.log(todo);
   });
+
+  function getTodos() {
+    var todo = JSON.parse(localStorage.getItem("todos"));
+
+    for (var i = 0; i < todo.length; i++) {
+      if (todo[i] !== {} || todo[i] !== "") {
+        console.log(todo[i]);
+        $(".description").val(todo[i]);
+      }
+    }
+  }
+
+  getTodos();
 
   // Call the changeColor function when page is loaded/refreshed
   changeColor();
