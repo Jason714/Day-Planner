@@ -36,31 +36,36 @@ $(document).ready(function() {
       }
     });
   }
-
+  // Listener for save button click with the function to save to local storage
   $(".saveBtn").on("click", function(e) {
     e.preventDefault();
-
+    // Variable to set the todo item to the same index in local storage as the index of the time-block relative to the DOM
     var todo = $(".time-block > .description")
       .map(function() {
         return $(this).val();
       })
       .get();
+    // Save todo to local storage
     localStorage.setItem("todos", JSON.stringify(todo));
   });
-
+  // Function to display todos from local storage
   function getTodos() {
+    // Get todos array from local storage
     var todo = JSON.parse(localStorage.getItem("todos"));
-
+    // Statement to create an empty array if there isn't an array already in local storage
+    if (todo === null) {
+      todo = new Array(9);
+    }
+    // Loop through todo array
     for (var i = 0; i < todo.length; i++) {
-      if (todo[i] !== {} || todo[i] !== "") {
-        console.log(todo[i]);
-        $(".description").val(todo[i]);
-      }
+      // Set the text of the textarea equal to the text of the same index value in the todo array
+      $(".description")
+        .eq([i])
+        .text(todo[i]);
     }
   }
-
+  // Call the getTodos function when page is loaded/refreshed
   getTodos();
-
   // Call the changeColor function when page is loaded/refreshed
   changeColor();
   // Call the displayCurrentDate function when page is loaded/refreshed
