@@ -40,9 +40,11 @@ $(document).ready(function() {
   $(".saveBtn").on("click", function(e) {
     e.preventDefault();
     var index = $(".saveBtn").index(this);
-    var todo = $(".description").val();
+    var todo = $(".description");
     console.log(index);
-    todo[index] = $(this);
+    todo[index] = $(this)
+      .prev(".description")
+      .val();
     localStorage.setItem("todos", JSON.stringify(todo));
     console.log(todo);
   });
