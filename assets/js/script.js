@@ -12,19 +12,19 @@ $(document).ready(function() {
   function changeColor() {
     // Variable to get the current hour through the moment API
     var currentHour = moment().get("hour");
-    // Loop to put hour-row elements into an array so that the index can be referenced
-    $(".time-block").each(function(index) {
+    // Loop to put time-block elements into an array so that the index can be referenced
+    $(".time-block").each(function(i) {
       // Make sure that the textarea doesn't have a past, present or future class
       $(this)
         .children(".description")
         .removeClass("past present future");
       // Statement to add past class to textarea when the current hour is greater than the index (added 9 to current index to make it equal to the current time)
-      if (index + 9 < currentHour) {
+      if (i + 9 < currentHour) {
         $(this)
           .children(".description")
           .addClass("past");
         // Statement to add present class to textarea when the current hour is the same as the index (added 9 to current index to make it equal to the current time)
-      } else if (index + 9 === currentHour) {
+      } else if (i + 9 === currentHour) {
         $(this)
           .children(".description")
           .addClass("present");
@@ -37,17 +37,14 @@ $(document).ready(function() {
     });
   }
 
-  $(".saveBtn").on("click", function(event) {
-    event.preventDefault();
-
-    $(".description").each(function(i) {
-      var todo = $(".description").val();
-      $(this).attr("data-value", [i]);
-      if (todo === "") {
-        return;
-      }
-      localStorage.setItem("todos " + [i], JSON.stringify(todo));
-    });
+  $(".saveBtn").on("click", function(e) {
+    e.preventDefault();
+    var index = $(".saveBtn").index(this);
+    var todo = $(".description").val();
+    console.log(index);
+    todo[index] = $(this);
+    localStorage.setItem("todos", JSON.stringify(todo));
+    console.log(todo);
   });
 
   // Call the changeColor function when page is loaded/refreshed
