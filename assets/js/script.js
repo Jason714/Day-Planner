@@ -5,17 +5,15 @@ $(document).ready(function() {
     var currentDay = $("#currentDay");
     // Variable to get current date through the moment API
     var diplayCurrentDay = moment().format("MMMM Do YYYY");
-    console.log(diplayCurrentDay);
     currentDay.text(diplayCurrentDay);
   }
+
   // Function to change the color of the textarea based on the current time
   function changeColor() {
     // Variable to get the current hour through the moment API
     var currentHour = moment().get("hour");
-    console.log(currentHour);
     // Loop to put hour-row elements into an array so that the index can be referenced
-    $(".hour-row").each(function(index) {
-      console.log(index);
+    $(".time-block").each(function(index) {
       // Make sure that the textarea doesn't have a past, present or future class
       $(this)
         .children(".description")
@@ -38,8 +36,22 @@ $(document).ready(function() {
       }
     });
   }
-  // Call the changeColor function
+
+  $(".saveBtn").on("click", function(event) {
+    event.preventDefault();
+
+    $(".description").each(function(i) {
+      var todo = $(".description").val();
+      $(this).attr("data-value", [i]);
+      if (todo === "") {
+        return;
+      }
+      localStorage.setItem("todos " + [i], JSON.stringify(todo));
+    });
+  });
+
+  // Call the changeColor function when page is loaded/refreshed
   changeColor();
-  // Call the displayCurrentDate function
+  // Call the displayCurrentDate function when page is loaded/refreshed
   displayCurrentDate();
 });
